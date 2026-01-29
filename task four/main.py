@@ -1,8 +1,3 @@
-def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, *args
-
 def input_error(func):
     def inner(*args, **kwargs):
         try:
@@ -14,6 +9,12 @@ def input_error(func):
         except IndexError:
             print("Index out of range.")
     return inner
+
+@input_error
+def parse_input(user_input):
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, *args
 
 @input_error
 def add_contact(args, contacts):
@@ -35,6 +36,11 @@ def check_contact(args, contacts):
     name = " ".join(args)
     return contacts.get(name, "Contact not found.")
 
+@input_error
+def all_contacts(contacts):
+    for name, phone in contacts.items():
+        return f"{name}: {phone}"
+
 
 def main():
     contacts = {}
@@ -55,7 +61,7 @@ def main():
         elif command == "phone":
             print(check_contact(args, contacts))
         elif command == "all":
-            print(f"{contacts}")
+            print(all_contacts(contacts))
         else:
             print("Invalid command.")
 
