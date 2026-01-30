@@ -5,9 +5,9 @@ def input_error(func):
         except ValueError:
             return "Enter the argument for the command."
         except KeyError:
-            print("Missing required key in the data.")
+            return "Missing required key in the data."
         except IndexError:
-            print("Index out of range.")
+            return "Index out of range."
     return inner
 
 @input_error
@@ -38,8 +38,7 @@ def check_contact(args, contacts):
 
 @input_error
 def all_contacts(contacts):
-    for name, phone in contacts.items():
-        return f"{name}: {phone}"
+    return "\n".join(f"{name}: {phone}" for name, phone in contacts.items())
 
 
 def main():
